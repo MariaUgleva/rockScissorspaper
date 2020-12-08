@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import FigureChoice from "./Components/FigureChoice";
+import Score from "./Components/Score";
+import Rules from "./Components/Rules";
+import { useSelector } from "react-redux";
+import { AppState } from "./redux/Reducers/rootReducer";
+import DieIsCast from "./Components/DieIsCast";
 
 function App() {
+  const gameData = useSelector(
+    (state: AppState) => state.gameData
+  );
+  const pageToRender = gameData.player ? (
+    <DieIsCast />
+  ) : (
+    <FigureChoice />
+  );
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="container">
+        <Score />
+        {gameData.computer ? null : pageToRender}
+      </div>
+      {gameData.computer ? pageToRender : null }
+      <Rules />
     </div>
   );
 }
